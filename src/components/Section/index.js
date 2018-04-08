@@ -12,9 +12,9 @@ const Text = ({ children }) => <p className="section-text">{children}</p>;
 
 const Section = ({ id, header, children }) => (
   <div>
-    <span class="anchor" id={id} />
+    <span className="anchor" id={id} />
     <section>
-      <h2 class="section-header">{header}</h2>
+      <h2 className="section-header">{header}</h2>
       {children}
     </section>
   </div>

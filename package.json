@@ -1,25 +1,23 @@
 {
-  "name": "gatsby-starter-default",
-  "description": "Gatsby default starter",
+  "name": "andrewjdillon.com",
+  "description": "Andrew Dillon's personal website",
   "version": "1.0.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Andrew Dillon <andrew.dillon.j@gmail.com>",
   "dependencies": {
     "gatsby": "^1.9.241",
     "gatsby-link": "^1.6.39",
     "gatsby-plugin-react-helmet": "^2.0.8",
     "gatsby-plugin-typography": "^1.7.18",
     "react-helmet": "^5.2.0",
-    "typography-theme-judah": "^0.15.10",
-    "typography-theme-lawton": "^0.15.10",
-    "typography-theme-lincoln": "^0.15.11"
+    "react-particles-js": "^2.1.2"
   },
-  "keywords": [
-    "gatsby"
-  ],
+  "keywords": ["gatsby"],
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
+    "serve": "gatsby build && gatsby serve",
+    "deploy": "npm build && firebase deploy --project frontpage-357d8",
     "format": "prettier --write 'src/**/*.js'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

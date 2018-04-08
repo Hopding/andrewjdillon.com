@@ -1,0 +1,148 @@
+.frontpage {
+  background-color: #204060;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.frontpage-container {
+  z-index: 1;
+  pointer-events: none;
+}
+
+.frontpage-name {
+  padding-left: 5px;
+  padding-right: 5px;
+  display: block;
+  margin: auto;
+  color: #fff;
+  font-family: Arial;
+  font-size: 400%;
+  font-weight: 400;
+  text-align: center;
+}
+
+@media (max-width: 550px) {
+  .frontpage-name {
+    font-size: 275%;
+  }
+}
+
+.frontpage-subtitle {
+  display: block;
+  margin: auto;
+  color: #fff;
+  font-family: Arial;
+  font-size: 250%;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+@media (max-width: 550px) {
+  .frontpage-subtitle {
+    font-size: 175%;
+  }
+}
+
+.frontpage-avatar-container {
+  z-index: 5;
+}
+
+.frontpage-avatar {
+  display: block;
+  margin: auto;
+  border-radius: 50%;
+  border-width: 2px;
+  border-color: #fff;
+  border-style: solid;
+}
+
+@media (max-width: 550px) {
+  .frontpage-avatar {
+    width: 100px;
+  }
+}
+
+.frontpage-icons {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.frontpage-icon-container {
+  border-radius: 50%;
+  border-width: 4px;
+  border-color: #fff;
+  border-style: solid;
+  fill: #ffffff;
+  /* width: 65px; */
+  width: 55px;
+  height: 55px;
+  padding: 5px;
+  /* padding-right: 7px; */
+  /* padding-left: 7px; */
+  pointer-events: auto;
+}
+
+.frontpage-icon {
+  width: 65px;
+  padding-right: 7px;
+  padding-left: 7px;
+  pointer-events: auto;
+}
+
+@media (max-width: 550px) {
+  .frontpage-icon {
+    width: 55px;
+  }
+}
+
+.frontpage-chevron {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+}
+
+@media (max-height: 450px) {
+  .frontpage-chevron {
+    visibility: hidden;
+  }
+}
+
+#chevron-text {
+  padding-top: 0px;
+  margin-top: 3px;
+  margin-bottom: 0px;
+}
+
+@keyframes pulse {
+  0% {
+    border-width: 1px 1px 0 0;
+  }
+  100% {
+    border-width: 4px 4px 0 0;
+  }
+}
+
+.chevron {
+  animation: pulse 1s infinite;
+  animation-direction: alternate;
+  border-style: solid;
+  content: '';
+  display: inline-block;
+  position: relative;
+  height: 25px;
+  width: 25px;
+  transform: rotate(-45deg);
+  vertical-align: top;
+}
+
+.chevron.down {
+  top: 0;
+  transform: rotate(135deg);
+}
