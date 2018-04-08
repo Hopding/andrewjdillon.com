@@ -1,26 +1,21 @@
-# gatsby-starter-default
-The default Gatsby starter.
-
-For an overview of the project structure please refer to the [Gatsby documentation - Building with Components](https://www.gatsbyjs.org/docs/building-with-components/).
+This repo contains the source code for my personal website https://andrewjdillon.com/. It is built on top of [Gatsby](https://www.gatsbyjs.org/) and hosted by [Firebase](https://firebase.google.com/). I have not written it with extensibility or generality in mind, so it's unlikely to be especially useful to anybody other than myself. Except, perhaps, as inspiration.
 
 ## Install
-
-Make sure that you have the Gatsby CLI program installed:
-```sh
-npm install --global gatsby-cli
+```bash
+git clone https://github.com/Hopding/andrewjdillon.com.git
+cd andrewjdillon.com
+yarn install
 ```
 
-And run from your CLI:
-```sh
-gatsby new gatsby-example-site
-```
-
-Then you can run it by:
-```sh
-cd gatsby-example-site
-npm run develop
+## Develop
+```bash
+yarn develop # Starts a hot-reloading server at localhost:8000
+yarn serve # Builds a static copy of the site and serves at localhost:9000
 ```
 
 ## Deploy
+```bash
+npm install -g firebase-tools
+yarn deploy # Rebuilds the site and publishes the public/ dir to firebase
+```
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-default)
