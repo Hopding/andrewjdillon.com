@@ -1,6 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: 'Andrew Dillon',
+    author: 'Andrew Dillon',
   },
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -10,5 +11,13 @@ module.exports = {
         pathToConfigModule: 'src/utils/typography.js',
       },
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/src/pages`,
+        name: 'markdown-pages',
+      },
+    },
+    `gatsby-transformer-remark`,
   ],
 };

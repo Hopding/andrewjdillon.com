@@ -4,10 +4,12 @@
   "version": "1.0.0",
   "author": "Andrew Dillon <andrew.dillon.j@gmail.com>",
   "dependencies": {
-    "gatsby": "^1.9.241",
+    "gatsby": "^1.9.250",
     "gatsby-link": "^1.6.39",
     "gatsby-plugin-react-helmet": "^2.0.8",
     "gatsby-plugin-typography": "^1.7.18",
+    "gatsby-source-filesystem": "^1.5.31",
+    "gatsby-transformer-remark": "^1.7.40",
     "react-helmet": "^5.2.0",
     "react-particles-js": "^2.1.2"
   },
