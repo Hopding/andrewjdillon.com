@@ -77,7 +77,7 @@ const Pencil = ({ color }) => (
 );
 
 const enhance = Component => ({ href, download, color }) => (
-  <a href={href} download={download}>
+  <a target="_blank" href={href} download={download}>
     <div style={iconContainerStyle}>
       <Component color={color} />
     </div>
