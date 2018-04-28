@@ -9,6 +9,7 @@
   background-color: rgb(252, 250, 242);
   display: flex;
   justify-content: center;
+  min-height: 100vh;
 }
 
 .sections-wrapper {

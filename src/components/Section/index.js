@@ -14,14 +14,24 @@ const Section = ({ id, header, children }) => (
   <div>
     <span className="anchor" id={id} />
     <section>
-      <h2 className="section-header">{header}</h2>
+      <h1 className="section-header">{header}</h1>
       {children}
     </section>
   </div>
+);
+
+const Header2 = ({ children }) => (
+  <h2 className="section-header">{children}</h2>
+);
+
+const Header3 = ({ children }) => (
+  <h3 className="section-header">{children}</h3>
 );
 
 export default {
   Root,
   Section,
   Text,
+  Header2,
+  Header3,
 };

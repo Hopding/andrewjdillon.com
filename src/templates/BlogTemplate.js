@@ -1,20 +1,15 @@
 import React from 'react';
-import Helmet from 'react-helmet';
-import Link from 'gatsby-link';
-import get from 'lodash/get';
 
 import Section from '../components/Section';
 
-import { rhythm, scale } from '../utils/typography';
-
 const BlogTemplate = ({
-  // this prop will be injected by the GraphQL query below.
+  // This prop will be injected by the GraphQL query below.
   data: { markdownRemark: { frontmatter, html } },
 }) => (
   <Section.Root>
     <div style={{ height: '75px' }} />
     <Section.Section id="about" header={frontmatter.title}>
-      <h2>{frontmatter.date}</h2>
+      <Section.Header3>{frontmatter.date}</Section.Header3>
       <Section.Text>
         <div
           className="blog-post-content"
