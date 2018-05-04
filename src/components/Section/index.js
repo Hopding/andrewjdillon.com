@@ -14,7 +14,7 @@ const Section = ({ id, header, children }) => (
   <div>
     <span className="anchor" id={id} />
     <section>
-      <h1 className="section-header">{header}</h1>
+      <h2 className="section-header">{header}</h2>
       {children}
     </section>
   </div>
@@ -28,10 +28,15 @@ const Header3 = ({ children }) => (
   <h3 className="section-header">{children}</h3>
 );
 
+const Header4 = ({ children }) => (
+  <h4 className="section-header">{children}</h4>
+);
+
 export default {
   Root,
   Section,
   Text,
   Header2,
   Header3,
+  Header4,
 };

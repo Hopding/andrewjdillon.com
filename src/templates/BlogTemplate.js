@@ -9,7 +9,7 @@ const BlogTemplate = ({
   <Section.Root>
     <div style={{ height: '75px' }} />
     <Section.Section id="about" header={frontmatter.title}>
-      <Section.Header3>{frontmatter.date}</Section.Header3>
+      <Section.Header4>{frontmatter.date}</Section.Header4>
       <Section.Text>
         <div
           className="blog-post-content"
