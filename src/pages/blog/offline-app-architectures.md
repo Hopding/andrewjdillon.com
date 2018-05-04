@@ -8,6 +8,13 @@ title: "Offline App Architectures"
 
 ![Request Driven - Traditional Online Diagram](./request-driven_traditional_online.png)
 
+This is the most common architecture for web apps. It is very common in mobile apps as well. This is not surprising - let's break down why:
+
+* **It's simple.**
+* **It's easy to implement.**
+* **It's safe and robust.**
+* **It's "truthful" to the user.**
+
 ## Request Driven - Traditional Offline
 
 ![Request Driven - Traditional Offline Diagram](./request-driven_traditional_offline.png)
@@ -35,8 +42,3 @@ title: "Offline App Architectures"
 ## Event Driven - Event Queue Offline (Optimistic Update)
 
 ![Event Driven - Event Queue Offline (Optimistic Update) Diagram](./event-driven_event-queue_optimistic-update_offline.png)
-
-This architecture has several upsides and downsides. It has the following characteristics:
-
-* Stuff
-* Things
