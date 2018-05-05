@@ -6,11 +6,13 @@ title: "Offline App Architectures"
 
 **TODO: Talk about how making an offline app that interacts with an API is more difficult than one that doesn't.**
 
+**TODO: Update the "API" box to say "REST API" for clarity?**
+
 ## Request Driven - Traditional Online
 
 ![Request Driven - Traditional Online Diagram](./request-driven_traditional_online.png)
 
-Let's call the architecture outlined in this diagram the _Traditional Request Driven_ architecture. It works by sending HTTP requests to an API in response to relevant user actions. The app then renders a pending status in the UI while it waits for an API response. When one is received, the app presents a success or failure screen to the user based on the status code of the response.
+Let's call the architecture outlined in this diagram the **Traditional Request Driven** architecture. It works by sending HTTP requests to an API in response to relevant user actions. The app then renders a pending status in the UI while it waits for an API response. When one is received, the app presents a success or failure screen to the user based on the status code of the response.
 
 This is the most common architecture for web apps. It is very common in mobile apps as well. Let's break down why:
 
@@ -27,36 +29,79 @@ So it's pretty great. Awesome. But there is one _tiny_ caveat to this architectu
 
 A timeout. This is different from the request _failing_. In this scenario, the request never made it off the device. You can, of course, handle this situation and render a nice screen in your UI notifying the user of what happened. Perhaps you'll even recommend that they regain internet connectivity and try again.
 
-Handling timeout errors is all good and well, but it doesn't change the fact that this architecture does not work when the user if offline. This isn't a big deal in many cases. Web apps in particular are usually safe assuming the user has internet connectivity - how else would they have been able to access the web app to begin with?
+Handling timeout errors is all good and well, but it doesn't change the fact that this architecture does not work when the user is offline. This isn't a big deal in many cases. Web apps in particular are usually safe assuming the user has internet connectivity - how else would they have been able to access the web app to begin with?
 
 But if the app depicted here is a mobile app, then we might have a problem. Because mobile apps are installed on a user's device, they can be opened and used even without internet connectivity (after they've been installed).
 
-Consider chat apps like Facebook Messenger or Slack. If you don't have connectivity, then your messages can't be sent to their recipient. And you can't receive messages sent by them. This is a brute fact of nature. The app should then notify the user they are offline and that their messages cannot be sent _right now_.
+Consider a hypothetical chat app like Facebook Messenger or Slack. If you don't have connectivity, then your messages can't be sent to their recipient. And you can't receive messages sent by them. This is a brute fact of nature. Our hypothetical app should then notify the user they are offline and that their messages cannot be sent _right now_.
 
 But this doesn't mean that the app can't send them _later_, when the user regains connectivity. You might want to allow the user to enter a series of messages when they are offline. The app can then hold these messages in memory and send them to their recipient when connectivity is regained.
 **(Note: This might be a bad example for the event driven model? Because the user should _know_ their messages haven't been sent yet.)**
 
 This is an example of _offline tolerant functionality_ - or just _offline functionality_. As mentioned above, the Traditional Request Driven architecture does not support features like this. So then how can we go about implementing offline functionality?
 
-There are, of course, a countless number of alternative architectures that one might concoct to handle these offline scenarios. I'd like to explore three particular architectures that have been used for mobile app projects I've been a part of. Let's call them the _Token Queue Request Driven_, _Token Queue Request Driven with Optimistic Updates_, and _Event Queue with Optimistic Updates_ architectures. **(Note: Mention Stride & Flex here?)**.
+There are, of course, a countless number of alternative architectures that one might concoct to handle these offline scenarios. I'd like to explore three particular architectures that have been used for mobile app projects I've been a part of. Let's call them the **Token Queue Request Driven**, **Token Queue Request Driven with Optimistic Updates**, and **Event Queue with Optimistic Updates** architectures. **(Note: Mention Stride & Flex here?)**.
 
 ## Request Driven - Token Queue Online
 
 ![Request Driven - Token Queue Online Diagram](./request-driven_token-queue_online.png)
 
-// Need to store something and process them when come online. A queue is a natural data structure for handling this...
+This architecture works by storing requests in a queue, and then sending them to the API. If the app loses connectivity, these requests are simply kept in the queue until the app comes back online - at which point they are sent off.
+
+You might be wondering at this point "How do you store an HTTP request in a queue?" This is a good question, because you can only store _objects_ in a queue. But HTTP requests are not objects, they are _processes_. We can solve this problem by creating an object that represents an HTTP request. Let's call this object a **request token**.
+
+So when the user performs an action in the app, a request token is generated and placed on the **token queue**. We now need a mechanism to convert these request tokens into actual HTTP requests, and handle the response. Let's call this mechanism the **token processor**.
+
+Let's call the process of converting request tokens into successful HTTP requests **token resolution**. So we can say that the token processor tries to **resolve** request tokens. If the HTTP request comes back with a non-200 response code, we'll say that the token's resolution failed.
+
+We can now store request tokens that are generated when a user is offline and performs an action that must be communicated the the API. When the app regains connectivity, we simply resolve any stored request tokens by converting them into HTTP requests to the API.
+
+This is great! So we've solved the problem we encountered in the Traditional Request Driven architecture - that it doesn't work offline. Are we done now?
 
 ## Request Driven - Token Queue Offline
 
 ![Request Driven - Token Queue Offline Diagram](./request-driven_token-queue_offline.png)
 
+Well, maybe. But this new architecture has produced a new problem: the user can now get stuck in a pending state for a long period of time.
+
+This can happen because after generating a request token, the UI moves into a pending state until that token is resolved. How long does it take for a token to be resolved? Well, if the app is online, it probably won't take but a few seconds. But if the app is offline, then it could take minutes, hours, or days - however long it takes for the user to move to an area in which the app can reestablish connectivity.
+
+This is particularly troublesome if the user needs to perform a series of _dependent_ actions while they are offline. To make this concrete, consider the following scenario:
+
+1.  The app is offline.
+2.  The user takes an action to create some kind of record.
+3.  A request token is generated that will resolve to a POST request which creates the record in the backend.
+4.  The app enters a pending state - thus preventing further action on the record until the token has resolved, and the app is able to confirm the record was successfully created.
+5.  The user realizes they made a mistake, and would like to update the record.
+
+The salience of this problem should now be clear. The user cannot update the record until they regain connectivity, which could take a nontrivial amount of time. Obviously, this is terribly inconvenient to the user, and they may even forget to update the record when they are back online.
+
+How can we solve this problem? How can we allow the user to perform a series of dependent actions that must be communicated to an API while they are offline?
+
 ## Request Driven - Token Queue Online (Optimistic Update)
 
 ![Request Driven - Token Queue Online (Optimistic Update) Diagram](./request-driven_token-queue_optimistic-update_online.png)
 
+This architecture retains the concept of a request token, as well as the token queue and token processor modules. It differs from the previous architecture in how it updates the UI after generating a request token.
+
+The previous architecture entered a pending state and waited for resolution of the token. This architecture performs an **optimistic update**. An optimistic update simply assumes that the request token will resolve successfully, and updates the UI accordingly.
+
+Of course, the token may _not_ resolve successfully. What then? In this case, the app will perform a **rollback**. This entails reverting the state of the app back to what it was prior to the user performing any actions for which token resolution failed.
+
+The primary benefit to this approach is that it immediately renders a success screen to the user. They don't have to wait at all for token resolution. This seems to solve the problem we encountered in the previous architecture - that a user cannot perform a series of dependent actions that must be communicated to the API while offline.
+
+Pretty cool. But let's take a look at what happens in this architecture when it goes offline.
+
 ## Request Driven - Token Queue Offline (Optimistic Update)
 
 ![Request Driven - Token Queue Offline (Optimistic Update) Diagram](./request-driven_token-queue_optimistic-update_offline.png)
+
+1.  Passing result context to resolution of dependent tokens
+2.  Rollbacks are terrible for UX
+
+In this architecture, users are able to perform
+
+The primary benefit to this approach is that it immediately renders a success screen to the user. They don't have to wait at all for token resolution.
 
 ## Event Driven - Event Queue Online (Optimistic Update)
 
