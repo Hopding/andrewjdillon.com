@@ -6,10 +6,6 @@ title: "Offline App Architectures"
 
 **TODO: Talk about how making an offline app that interacts with an API is more difficult than one that doesn't.**
 
-**TODO: Update the "API" box to say "REST API" for clarity?**
-
-## Request Driven - Traditional Online
-
 ![Request Driven - Traditional Online Diagram](./request-driven_traditional_online.png)
 
 Let's call the architecture outlined in this diagram the **Traditional Request Driven** architecture. It works by sending HTTP requests to an API in response to relevant user actions. The app then renders a pending status in the UI while it waits for an API response. When one is received, the app presents a success or failure screen to the user based on the status code of the response.
