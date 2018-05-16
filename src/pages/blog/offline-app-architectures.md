@@ -137,8 +137,24 @@ The **event queue** in this architecture is more or less the same as the token q
 
 The token processor in the previous architectures has a rather complicated job. It has to convert request tokens into actual HTTP requests. Each request can be sent to a different API endpoint, have a different body, header set, etc... The token processor has to handle updating the state of the app in response to token resolution. And because token resolution can also fail, the token processor has to handle rollback logic, which can get quite complicated.
 
-The **event sender**, however, is quite a bit different from the token processor. Its job is _much_ simpler.
+The **event sender**, however, is quite a bit different from the token processor and has a _much_ simpler job. Its only job is to send events from the event queue to the **event store** via HTTP requests. This consists of sending arrays of events to a single endpoint of the event store's API via a POST request.
+
+Let's investigate what happens when this architecture goes offline.
 
 ## Event Driven - Event Queue Offline (Optimistic Update)
 
 ![Event Driven - Event Queue Offline (Optimistic Update) Diagram](./event-driven_event-queue_optimistic-update_offline.png)
+
+The user can perform an arbitrary series of actions without ever encountering a loading screen. Each action performed by the user will produce an event object. This event object is used to update the app's state, and is then sent into the event queue.
+
+Because the user is offline, the event sender is unable to send the events in the queue to the event store. But that's okay, because when the user comes back online, the events will be sent to the event store in a single, efficient, POST request.
+
+No rollback logic is required because the likelihood of failure is incredibly low in this model, compared to a typical REST approach. If the event store's single endpoint ever fails to accept requests, then the app will simply hold its events in storage until the event store is fixed and able to accept the events once again.
+
+This all happens seamlessly for the user. It really doesn't matter to them whether they are online or not. It all works the same. (Of course, they cannot receive updates from other users when the app is offline, but this is unavoidable no matter what architecture you use).
+
+## Summary
+
+which do you use?
+depends, most work on top of REST, event sourcing does not
+also depends on if have to handle dependent actions
