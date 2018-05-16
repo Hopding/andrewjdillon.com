@@ -76,7 +76,7 @@ This is particularly troublesome if the user needs to perform a series of _depen
 
 The salience of this problem should now be clear. The user cannot update the record until they regain connectivity, which could take a nontrivial amount of time. Obviously, this is terribly inconvenient to the user, and they may even forget to update the record when they are back online.
 
-How can we solve this problem? How can we allow the user to perform a series of dependent actions that must be communicated to an API while they are offline?
+How can we solve this problem? How can we allow the user to perform a series of dependent actions that must be communicated to an API, while the user is offline?
 
 ## Request Driven - Token Queue Online (Optimistic Update)
 
@@ -88,7 +88,7 @@ The previous architecture entered a pending state and waited for resolution of t
 
 Of course, the token may _not_ resolve successfully. What then? In this case, the app will perform a **rollback**. This entails reverting the state of the app back to what it was prior to the user performing any actions for which token resolution failed.
 
-The primary benefit to this approach is that it immediately renders a success screen to the user. They don't have to wait at all for token resolution. This seems to solve the problem we encountered in the previous architecture - that a user cannot perform a series of dependent actions that must be communicated to the API while offline.
+The primary benefit to this architecture is that it immediately renders a success screen to the user. They don't have to wait at all for token resolution. This seems to solve the problem we encountered in the previous architecture - that a user cannot perform a series of dependent actions that must be communicated to the API while offline.
 
 Pretty cool. But let's take a look at what happens in this architecture when it goes offline.
 
@@ -96,12 +96,32 @@ Pretty cool. But let's take a look at what happens in this architecture when it 
 
 ![Request Driven - Token Queue Offline (Optimistic Update) Diagram](./request-driven_token-queue_optimistic-update_offline.png)
 
+[[
+
 1.  Passing result context to resolution of dependent tokens
 2.  Rollbacks are terrible for UX
 
-In this architecture, users are able to perform
+]]
 
-The primary benefit to this approach is that it immediately renders a success screen to the user. They don't have to wait at all for token resolution.
+Users are able to perform actions and the UI updates immediately. The user could potentially perform a lengthy series of interdependent actions while they're offline. This is great for the user - unless a rollback becomes necessary.
+
+Rollbacks make for a terrible UX because they are very jarring and confusing to users. It's hard to implement them elegantly in a way that makes sense. There's no easy way to tell a user "it worked!" only to later change your mind and tell them "...actually nevermind, it didn't _really_ work."
+
+There are two factors that can magnify the annoyance caused by a rollback:
+
+* The length of time between when a user performs an action, and when it is rolled back.
+* The number of actions that must be rolled back.
+
+Unfortunately, this architecture allows both of these factors to grow quite large in offline mode. The longer a user is offline, the larger these factors become. It would be possible a user to complete an entire workflow in offline mode, only to have the whole thing discarded by a rollback when they come back online. This would make for quite an agonizing UX.
+
+----> Talk about why rollbacks are necessary due to multiple endpoints, and how a single endpoints avoids this problem.
+
+## Event Sourcing
+
+**(running assumption is that the API is a REST API)**
+At this point its useful to consider why rollbacks are necessary. They are necessary because HTTP requests can fail. Most mobile apps interact with a REST API over HTTP using several different endpoints. Oftentimes, these endpoints are backed by different services and databases - each of which can fail in different ways.
+
+Because mobile apps make so many _different_ requests, each of which can fail for _different_ reasons at _different_ times, responding to failed HTTP requests is very important.
 
 ## Event Driven - Event Queue Online (Optimistic Update)
 
