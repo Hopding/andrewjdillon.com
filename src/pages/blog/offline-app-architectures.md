@@ -127,6 +127,18 @@ Because mobile apps make so many _different_ requests, each of which can fail fo
 
 ![Event Driven - Event Queue Online (Optimistic Update) Diagram](./event-driven_event-queue_optimistic-update_online.png)
 
+This architecture replaces request tokens with **events**. The difference between events and request tokens is that events represent actions taken by users, whereas request tokens represent HTTP requests.
+
+For example, if a user was to create a record, an event for that action would be produced. If the user updated a record, a different event would be produced. These events can be used to update the state of the app. They have meaning in and of themselves.
+
+Because these events are just plain JSON objects, they can easily be transmitted over HTTP. But they have _no inherent relationship to any given HTTP request_. Again, this is a crucial distinction and is what differentiates events from request tokens. Request tokens are very tightly coupled to HTTP requests. Each request token represents a very specific HTTP request, and doesn't have meaning outside of that context.
+
+The **event queue** in this architecture is more or less the same as the token queue in the previous architectures. The only real difference is that the event queue stores events, instead of request tokens.
+
+The token processor in the previous architectures has a rather complicated job. It has to convert request tokens into actual HTTP requests. Each request can be sent to a different API endpoint, have a different body, header set, etc... The token processor has to handle updating the state of the app in response to token resolution. And because token resolution can also fail, the token processor has to handle rollback logic, which can get quite complicated.
+
+The **event sender**, however, is quite a bit different from the token processor. Its job is _much_ simpler.
+
 ## Event Driven - Event Queue Offline (Optimistic Update)
 
 ![Event Driven - Event Queue Offline (Optimistic Update) Diagram](./event-driven_event-queue_optimistic-update_offline.png)
