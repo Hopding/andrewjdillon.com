@@ -4,7 +4,13 @@ date: "2018-04-29"
 title: "Offline App Architectures"
 ---
 
-**TODO: Talk about how making an offline app that interacts with an API is more difficult than one that doesn't.**
+At [QDivision](https://qdivision.io/), where I work, we've been building building a number of mobile apps recently. A core requirement of many of these apps is that they allow the user to complete their work offline. You might not think that it would be difficult to create an app that works offline. After all, how hard it it to make a calculator or note-taking app?
+
+Well, it isn't hard. Unless you're also required to store those calculations and notes in the cloud to be shared and interact with other systems and users when the app comes online. These are still relatively trivial examples, but it's easy to see how creating an app that works offline, and is capable of sharing data when online, becomes more difficult as its feature count increases.
+
+I've worked on a couple of these mobile apps and helped develop a number of different solutions to address these problems. I'll discuss these architectures below. The first three architectures are designed to work on top of REST backend services. The fourth architecture is a more novel design that requires a different kind of data model and backend architecture.
+
+## Request Driven - Traditional Online
 
 ![Request Driven - Traditional Online Diagram](./request-driven_traditional_online.png)
 
