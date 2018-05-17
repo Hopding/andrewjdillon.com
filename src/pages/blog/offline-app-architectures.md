@@ -73,7 +73,7 @@ Well, maybe. But this new architecture has introduced a new problem: the user ca
 
 This can happen because after generating a request token, the UI moves into a pending state until that token is resolved. How long does it take for a token to be resolved? Well, if the app is online, it probably won't take but a few seconds. But if the app is offline, then it could take minutes, hours, or days - however long it takes for the user to move to an area in which the app can reestablish connectivity.
 
-This is particularly troublesome if the user needs to perform a series of _dependent_ actions while they are offline. To make this concrete, consider the following scenario:
+This is particularly troublesome if the user needs to perform a series of _dependent_ actions while they are offline. To make this problem concrete, consider the following scenario:
 
 1.  The app is offline.
 2.  The user takes an action to create some kind of record.
@@ -97,7 +97,7 @@ Of course, the token may _not_ resolve successfully. What then? In this case, th
 
 The primary benefit to this architecture is that it immediately renders a success screen to the user. They don't have to wait at all for token resolution. This seems to solve the problem we encountered in the previous architecture - that a user cannot perform a series of dependent actions that must be communicated to the API while offline.
 
-Pretty cool. But let's take a look at what happens in this architecture when it goes offline.
+Pretty cool. But let's take a closer look at what happens in this architecture when it goes offline.
 
 ## Request Driven - Token Queue Offline (Optimistic Update)
 
@@ -134,7 +134,7 @@ This architecture replaces request tokens with **events**. The difference betwee
 
 For example, if a user was to create a record, an event for that action would be produced. If the user updated a record, a different event would be produced. These events can be used to update the state of the app. They have meaning in and of themselves.
 
-Because these events are just plain JSON objects, they can easily be transmitted over HTTP. But they have _no inherent relationship to any given HTTP request_. Again, this is a crucial distinction and is what differentiates events from request tokens. Request tokens are very tightly coupled to HTTP requests. Each request token represents a very specific HTTP request, and doesn't have meaning outside of that context.
+Because these events are just plain JSON objects, they can easily be transmitted over HTTP. But they have _no inherent relationship to any given HTTP request_. This is a crucial distinction that differentiates events from request tokens. Request tokens are very tightly coupled to HTTP requests. Each request token represents a very specific HTTP request, and doesn't have meaning outside of that context.
 
 The **event queue** in this architecture is more or less the same as the token queue in the previous architectures. The only real difference is that the event queue stores events, instead of request tokens.
 
@@ -154,12 +154,12 @@ Because the user is offline, the event sender is unable to send the events in th
 
 No rollback logic is required because the likelihood of failure is incredibly low in this model, compared to a typical REST approach. If the event store's single endpoint ever fails to accept requests, then the app will simply hold its events in storage until the event store is fixed and able to accept the events once again.
 
-This all happens seamlessly for the user. It really doesn't matter to them whether they are online or not. It all works the same. (Of course, they cannot receive updates from other users when the app is offline, but this is unavoidable no matter what architecture you use).
+This all happens seamlessly for the user. It really doesn't matter to them whether they are online or not. It all works the same. (Of course, they cannot receive updates from the event store when the app is offline, but this is unavoidable no matter what architecture you use).
 
 ## Summary
 
 So which architecture should you use for implementing offline functionality in a mobile app? Not surprisingly, it depends on a lot of things. However, we can consider three primary factors that might drive your decision:
 
 * **Is it okay to present a pending screen to the user until they come online?** If so, then the Token Queue Request Driven is a viable option. It's very similar to the Traditional Request Driven architecture, so you can bring a lot of your existing experience and intuition to bear when implementing it.
-* **Does the user need to perform a series of dependent actions while offline?** If this is a requirement, then showing the user a pending screen isn't an option. So, the Token Queue Request Driven with Optimistic Updates is a valid candidate. Of course, this architecture comes with a lot of additional complexity and forces you to handle rollback logic. All of the problems that come with this architecture can make it a less than desirable solution.
-* **Are you working with existing REST based services?** This matters a lot. If you are, then whatever offline architecture you choose must work on top of a REST API model. This means that the event driven architecture isn't an option, and you'll have to choose a request driven model. But if you are able to create new services based on event sourcing, then you should strongly consider the Offline Event Queue architecture. It avoids much of the complexity of rollbacks while still retaining the benefits of optimistic updates when offline.
+* **Does the user need to perform a series of dependent actions while offline?** If this is a requirement, then showing the user a pending screen isn't an option. So, the Token Queue Request Driven with Optimistic Updates architecture is a valid candidate. Of course, this architecture comes with a lot of additional complexity and forces you to handle rollback logic. All of the problems that come with this architecture can make it a less than desirable solution.
+* **Are you working with existing REST based services?** This matters a lot. If you are, then whatever offline architecture you choose must work on top of a REST API model. This means that the event driven architecture isn't an option, and you'll have to choose a request driven model. But if you are able to create new services based on event sourcing, then you should strongly consider the Event Queue with Optimistic Updates architecture. It avoids much of the complexity of rollbacks while still retaining the benefits of optimistic updates when offline.
