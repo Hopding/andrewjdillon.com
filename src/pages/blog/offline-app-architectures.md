@@ -10,6 +10,8 @@ Well, it isn't hard. Unless you're also required to store those calculations and
 
 I've worked on a couple of these mobile apps and helped develop a number of different solutions to address these problems. I'll discuss these architectures below. The first two architectures are designed to work on top of REST backend services. The third architecture is a more novel design that requires a different kind of data model and backend architecture.
 
+(Please note that I will discuss these architectures at a high level. I will not get into specific technologies or implementation details.)
+
 ## Request Driven - Traditional Online
 
 ![Request Driven - Traditional Online Diagram](./request-driven_traditional_online.png)
@@ -110,17 +112,19 @@ There are two factors that can magnify the annoyance caused by a rollback:
 * The length of time between when a user performs an action, and when it is rolled back.
 * The number of actions that must be rolled back.
 
-Unfortunately, this architecture allows both of these factors to grow quite large in offline mode. The longer a user is offline, the larger these factors become. It would be possible a user to complete an entire workflow in offline mode, only to have the whole thing discarded by a rollback when they come back online. This would make for quite an agonizing UX.
+Unfortunately, this architecture allows both of these factors to grow quite large in offline mode. The longer a user is offline, the larger these factors become. It would be possible for a user to complete an entire workflow in offline mode, only to have the whole thing discarded by a rollback when they come back online. This would make for quite an agonizing UX.
 
-### Why are Rollbacks Necessary?
+### Avoiding Rollbacks with Event Sourcing
 
 At this point its useful to consider why rollbacks are necessary. They are necessary because HTTP requests can fail. Most mobile apps interact with a REST API over HTTP using several different endpoints. Oftentimes, these endpoints are backed by different services and databases - each of which can fail in different ways.
 
 Because mobile apps make so many _different_ requests, each of which can fail for _different_ reasons at _different_ times, responding to failed HTTP requests is very important. Of course, in this architecture, we respond to these request failures with rollbacks.
 
-What if we make a more foundational change to how we approach state management and interaction with backend services? Can we avoid some of these issues, and create an architecture with all of the advantages of this architecture, but in which rollbacks are not necessary?
+What if we make a more foundational change to how we approach state management and interaction with backend services? Can we avoid some of these issues, and create an architecture with all of the advantages of optimistic updates, but in which rollbacks are not necessary?
 
-...Brief overview of event sourcing...
+In fact, we can! We can convert our system from a traditional REST architecture to an event sourced one. **Event sourcing** is a system architecture in which objects called events are the source of truth. In an event sourcing system, state is not stored as a structured object in a SQL database. Instead, state is recorded as a series of events - an array of event objects. This series of events can then be run through an interpreter that converts an event stream into an actual state object.
+
+Event sourcing deserves a blog post in and of itself (or several). It's a fascinating architecture that solves a lot of common problems with REST, and introduces other new ones. I've only given a brief description of the subject - just enough to understand the offline architecture I'll introduce below. You can read more about event sourcing [here](https://martinfowler.com/eaaDev/EventSourcing.html).
 
 ## Event Driven - Event Queue Online (Optimistic Update)
 
@@ -154,6 +158,8 @@ This all happens seamlessly for the user. It really doesn't matter to them wheth
 
 ## Summary
 
-which do you use?
-depends, most work on top of REST, event sourcing does not
-also depends on if have to handle dependent actions
+So which architecture should you use for implementing offline functionality in a mobile app? Not surprisingly, it depends on a lot of things. However, we can consider three primary factors that might drive your decision:
+
+* **Is it okay to present a pending screen to the user until they come online?** If so, then the Token Queue Request Driven is a viable option. It's very similar to the Traditional Request Driven architecture, so you can bring a lot of your existing experience and intuition to bear when implementing it.
+* **Does the user need to perform a series of dependent actions while offline?** If this is a requirement, then showing the user a pending screen isn't an option. So, the Token Queue Request Driven with Optimistic Updates is a valid candidate. Of course, this architecture comes with a lot of additional complexity and forces you to handle rollback logic. All of the problems that come with this architecture can make it a less than desirable solution.
+* **Are you working with existing REST based services?** This matters a lot. If you are, then whatever offline architecture you choose must work on top of a REST API model. This means that the event driven architecture isn't an option, and you'll have to choose a request driven model. But if you are able to create new services based on event sourcing, then you should strongly consider the Offline Event Queue architecture. It avoids much of the complexity of rollbacks while still retaining the benefits of optimistic updates when offline.
