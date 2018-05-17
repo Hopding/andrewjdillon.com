@@ -8,7 +8,7 @@ At [QDivision](https://qdivision.io/), where I work, we've been building buildin
 
 Well, it isn't hard. Unless you're also required to store those calculations and notes in the cloud to be shared and interact with other systems and users when the app comes online. These are still relatively trivial examples, but it's easy to see how creating an app that works offline, and is capable of sharing data when online, becomes more difficult as its feature count increases.
 
-I've worked on a couple of these mobile apps and helped develop a number of different solutions to address these problems. I'll discuss these architectures below. The first three architectures are designed to work on top of REST backend services. The fourth architecture is a more novel design that requires a different kind of data model and backend architecture.
+I've worked on a couple of these mobile apps and helped develop a number of different solutions to address these problems. I'll discuss these architectures below. The first two architectures are designed to work on top of REST backend services. The third architecture is a more novel design that requires a different kind of data model and backend architecture.
 
 ## Request Driven - Traditional Online
 
@@ -38,11 +38,14 @@ But if the app depicted here is a mobile app, then we might have a problem. Beca
 Consider a hypothetical chat app like Facebook Messenger or Slack. If you don't have connectivity, then your messages can't be sent to their recipient. And you can't receive messages sent by them. This is a brute fact of nature. Our hypothetical app should then notify the user they are offline and that their messages cannot be sent _right now_.
 
 But this doesn't mean that the app can't send them _later_, when the user regains connectivity. You might want to allow the user to enter a series of messages when they are offline. The app can then hold these messages in memory and send them to their recipient when connectivity is regained.
-**(Note: This might be a bad example for the event driven model? Because the user should _know_ their messages haven't been sent yet.)**
 
-This is an example of _offline tolerant functionality_ - or just _offline functionality_. As mentioned above, the Traditional Request Driven architecture does not support features like this. So then how can we go about implementing offline functionality?
+This is an example of **offline tolerant functionality** - or just **offline functionality**. As mentioned above, the Traditional Request Driven architecture does not support features like this. So then how can we go about implementing offline functionality?
 
-There are, of course, a countless number of alternative architectures that one might concoct to handle these offline scenarios. I'd like to explore three particular architectures that have been used for mobile app projects I've been a part of. Let's call them the **Token Queue Request Driven**, **Token Queue Request Driven with Optimistic Updates**, and **Event Queue with Optimistic Updates** architectures. **(Note: Mention Stride & Flex here?)**.
+There are, of course, a countless number of alternative architectures that one might concoct to handle these offline scenarios. I'd like to explore three particular architectures that have been used for mobile app projects I've been a part of. Let's call them the
+
+* **Token Queue Request Driven** architecture
+* **Token Queue Request Driven with Optimistic Updates** architecture, and
+* **Event Queue with Optimistic Updates** architecture
 
 ## Request Driven - Token Queue Online
 
@@ -64,7 +67,7 @@ This is great! So we've solved the problem we encountered in the Traditional Req
 
 ![Request Driven - Token Queue Offline Diagram](./request-driven_token-queue_offline.png)
 
-Well, maybe. But this new architecture has produced a new problem: the user can now get stuck in a pending state for a long period of time.
+Well, maybe. But this new architecture has introduced a new problem: the user can now get stuck in a pending state for a long period of time.
 
 This can happen because after generating a request token, the UI moves into a pending state until that token is resolved. How long does it take for a token to be resolved? Well, if the app is online, it probably won't take but a few seconds. But if the app is offline, then it could take minutes, hours, or days - however long it takes for the user to move to an area in which the app can reestablish connectivity.
 
@@ -98,13 +101,6 @@ Pretty cool. But let's take a look at what happens in this architecture when it 
 
 ![Request Driven - Token Queue Offline (Optimistic Update) Diagram](./request-driven_token-queue_optimistic-update_offline.png)
 
-[[
-
-1.  Passing result context to resolution of dependent tokens
-2.  Rollbacks are terrible for UX
-
-]]
-
 Users are able to perform actions and the UI updates immediately. The user could potentially perform a lengthy series of interdependent actions while they're offline. This is great for the user - unless a rollback becomes necessary.
 
 Rollbacks make for a terrible UX because they are very jarring and confusing to users. It's hard to implement them elegantly in a way that makes sense. There's no easy way to tell a user "it worked!" only to later change your mind and tell them "...actually nevermind, it didn't _really_ work."
@@ -116,14 +112,15 @@ There are two factors that can magnify the annoyance caused by a rollback:
 
 Unfortunately, this architecture allows both of these factors to grow quite large in offline mode. The longer a user is offline, the larger these factors become. It would be possible a user to complete an entire workflow in offline mode, only to have the whole thing discarded by a rollback when they come back online. This would make for quite an agonizing UX.
 
-----> Talk about why rollbacks are necessary due to multiple endpoints, and how a single endpoints avoids this problem.
+### Why are Rollbacks Necessary?
 
-## Event Sourcing
-
-**(running assumption is that the API is a REST API)**
 At this point its useful to consider why rollbacks are necessary. They are necessary because HTTP requests can fail. Most mobile apps interact with a REST API over HTTP using several different endpoints. Oftentimes, these endpoints are backed by different services and databases - each of which can fail in different ways.
 
-Because mobile apps make so many _different_ requests, each of which can fail for _different_ reasons at _different_ times, responding to failed HTTP requests is very important.
+Because mobile apps make so many _different_ requests, each of which can fail for _different_ reasons at _different_ times, responding to failed HTTP requests is very important. Of course, in this architecture, we respond to these request failures with rollbacks.
+
+What if we make a more foundational change to how we approach state management and interaction with backend services? Can we avoid some of these issues, and create an architecture with all of the advantages of this architecture, but in which rollbacks are not necessary?
+
+...Brief overview of event sourcing...
 
 ## Event Driven - Event Queue Online (Optimistic Update)
 
