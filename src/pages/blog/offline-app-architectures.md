@@ -1,6 +1,6 @@
 ---
-path: "/blog/my-first-post"
-date: "2018-04-29"
+path: "/blog/offline-app-architectures"
+date: "2018-05-17"
 title: "Offline App Architectures"
 ---
 
@@ -12,9 +12,9 @@ I've worked on a couple of these mobile apps and helped develop a number of diff
 
 (Please note that I will discuss these architectures at a high level. I will not get into specific technologies or implementation details.)
 
-## Request Driven - Traditional Online
+## Traditional Request Driven - Online
 
-![Request Driven - Traditional Online Diagram](./request-driven_traditional_online.png)
+![Traditional Request Driven - Online Diagram](./request-driven_traditional_online.png)
 
 Let's call the architecture outlined in this diagram the **Traditional Request Driven** architecture. It works by sending HTTP requests to an API in response to relevant user actions. The app then renders a pending status in the UI while it waits for an API response. When one is received, the app presents a success or failure screen to the user based on the status code of the response.
 
@@ -27,9 +27,9 @@ This is the most common architecture for web apps. It is very common in mobile a
 
 So it's pretty great. Awesome. But there is one _tiny_ caveat to this architecture's awesomeness: It assumes you have internet connectivity. What happens if we flip off the connectivity switch?
 
-## Request Driven - Traditional Offline
+## Traditional Request Driven - Offline
 
-![Request Driven - Traditional Offline Diagram](./request-driven_traditional_offline.png)
+![Traditional Request Driven - Offline Diagram](./request-driven_traditional_offline.png)
 
 A timeout. This is different from the request _failing_. In this scenario, the request never made it off the device. You can, of course, handle this situation and render a nice screen in your UI notifying the user of what happened. Perhaps you'll even recommend that they regain internet connectivity and try again.
 
@@ -45,13 +45,13 @@ This is an example of **offline tolerant functionality** - or just **offline fun
 
 There are, of course, a countless number of alternative architectures that one might concoct to handle these offline scenarios. I'd like to explore three particular architectures that have been used for mobile app projects I've been a part of. Let's call them the
 
-* **Token Queue Request Driven** architecture
-* **Token Queue Request Driven with Optimistic Updates** architecture, and
+* **Request Token Queue** architecture
+* **Request Token Queue with Optimistic Updates** architecture, and
 * **Event Queue with Optimistic Updates** architecture
 
-## Request Driven - Token Queue Online
+## Request Token Queue - Online
 
-![Request Driven - Token Queue Online Diagram](./request-driven_token-queue_online.png)
+![Request Token Queue - Online Diagram](./request-driven_token-queue_online.png)
 
 This architecture works by storing requests in a queue, and then sending them to the API. If the app loses connectivity, these requests are simply kept in the queue until the app comes back online - at which point they are sent off.
 
@@ -65,9 +65,9 @@ We can now store request tokens that are generated when a user is offline and pe
 
 This is great! So we've solved the problem we encountered in the Traditional Request Driven architecture - that it doesn't work offline. Are we done now?
 
-## Request Driven - Token Queue Offline
+## Request Token Queue - Offline
 
-![Request Driven - Token Queue Offline Diagram](./request-driven_token-queue_offline.png)
+![Request Token Queue - Offline Diagram](./request-driven_token-queue_offline.png)
 
 Well, maybe. But this new architecture has introduced a new problem: the user can now get stuck in a pending state for a long period of time.
 
@@ -85,13 +85,13 @@ The salience of this problem should now be clear. The user cannot update the rec
 
 How can we solve this problem? How can we allow the user to perform a series of dependent actions that must be communicated to an API, while the user is offline?
 
-## Request Driven - Token Queue Online (Optimistic Update)
+## Request Token Queue with Optimistic Updates - Online
 
-![Request Driven - Token Queue Online (Optimistic Update) Diagram](./request-driven_token-queue_optimistic-update_online.png)
+![Request Token Queue with Optimistic Updates - Online Diagram](./request-driven_token-queue_optimistic-update_online.png)
 
 This architecture retains the concept of a request token, as well as the token queue and token processor modules. It differs from the previous architecture in how it updates the UI after generating a request token.
 
-The previous architecture entered a pending state and waited for resolution of the token. This architecture performs an **optimistic update**. An optimistic update simply assumes that the request token will resolve successfully, and updates the UI accordingly.
+The previous architecture entered a pending state and waited for resolution of the token. This architecture performs an **optimistic update**. An simply assumes that the request token will resolve successfully, and updates the UI accordingly.
 
 Of course, the token may _not_ resolve successfully. What then? In this case, the app will perform a **rollback**. This entails reverting the state of the app back to what it was prior to the user performing any actions for which token resolution failed.
 
@@ -99,9 +99,9 @@ The primary benefit to this architecture is that it immediately renders a succes
 
 Pretty cool. But let's take a closer look at what happens in this architecture when it goes offline.
 
-## Request Driven - Token Queue Offline (Optimistic Update)
+## Request Token Queue with Optimistic Updates - Offline
 
-![Request Driven - Token Queue Offline (Optimistic Update) Diagram](./request-driven_token-queue_optimistic-update_offline.png)
+![Request Token Queue with Optimistic Updates - Offline Diagram](./request-driven_token-queue_optimistic-update_offline.png)
 
 Users are able to perform actions and the UI updates immediately. The user could potentially perform a lengthy series of interdependent actions while they're offline. This is great for the user - unless a rollback becomes necessary.
 
@@ -126,9 +126,9 @@ In fact, we can! We can convert our system from a traditional REST architecture 
 
 Event sourcing deserves a blog post in and of itself (or several). It's a fascinating architecture that solves a lot of common problems with REST, and introduces other new ones. I've only given a brief description of the subject - just enough to understand the offline architecture I'll introduce below. You can read more about event sourcing [here](https://martinfowler.com/eaaDev/EventSourcing.html).
 
-## Event Driven - Event Queue Online (Optimistic Update)
+## Event Queue with Optimistic Updates - Online
 
-![Event Driven - Event Queue Online (Optimistic Update) Diagram](./event-driven_event-queue_optimistic-update_online.png)
+![Event Queue with Optimistic Updates - Online Diagram](./event-driven_event-queue_optimistic-update_online.png)
 
 This architecture replaces request tokens with **events**. The difference between events and request tokens is that events represent actions taken by users, whereas request tokens represent HTTP requests.
 
@@ -144,9 +144,9 @@ The **event sender**, however, is quite a bit different from the token processor
 
 Let's investigate what happens when this architecture goes offline.
 
-## Event Driven - Event Queue Offline (Optimistic Update)
+## Event Queue with Optimistic Updates - Offline
 
-![Event Driven - Event Queue Offline (Optimistic Update) Diagram](./event-driven_event-queue_optimistic-update_offline.png)
+![Event Queue with Optimistic Updates - Offline Diagram](./event-driven_event-queue_optimistic-update_offline.png)
 
 The user can perform an arbitrary series of actions without ever encountering a loading screen. Each action performed by the user will produce an event object. This event object is used to update the app's state, and is then sent into the event queue.
 
@@ -160,6 +160,6 @@ This all happens seamlessly for the user. It really doesn't matter to them wheth
 
 So which architecture should you use for implementing offline functionality in a mobile app? Not surprisingly, it depends on a lot of things. However, we can consider three primary factors that might drive your decision:
 
-* **Is it okay to present a pending screen to the user until they come online?** If so, then the Token Queue Request Driven is a viable option. It's very similar to the Traditional Request Driven architecture, so you can bring a lot of your existing experience and intuition to bear when implementing it.
-* **Does the user need to perform a series of dependent actions while offline?** If this is a requirement, then showing the user a pending screen isn't an option. So, the Token Queue Request Driven with Optimistic Updates architecture is a valid candidate. Of course, this architecture comes with a lot of additional complexity and forces you to handle rollback logic. All of the problems that come with this architecture can make it a less than desirable solution.
+* **Is it okay to present a pending screen to the user until they come online?** If so, then the Request Token Queue is a viable option. It's very similar to the Traditional Request Driven architecture, so you can bring a lot of your existing experience and intuition to bear when implementing it.
+* **Does the user need to perform a series of dependent actions while offline?** If this is a requirement, then showing the user a pending screen isn't an option. So, the Request Token Queue with Optimistic Updates architecture is a valid candidate. Of course, this architecture comes with a lot of additional complexity and forces you to handle rollback logic. All of the problems that come with this architecture can make it a less than desirable solution.
 * **Are you working with existing REST based services?** This matters a lot. If you are, then whatever offline architecture you choose must work on top of a REST API model. This means that the event driven architecture isn't an option, and you'll have to choose a request driven model. But if you are able to create new services based on event sourcing, then you should strongly consider the Event Queue with Optimistic Updates architecture. It avoids much of the complexity of rollbacks while still retaining the benefits of optimistic updates when offline.
