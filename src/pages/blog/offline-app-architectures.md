@@ -4,13 +4,13 @@ date: "2018-05-17"
 title: "Offline App Architectures"
 ---
 
-At [QDivision](https://qdivision.io/), where I work, we've been building building a number of mobile apps recently. A core requirement of many of these apps is that they allow the user to complete their work offline. You might not think that it would be difficult to create an app that works offline. After all, how hard it it to make a calculator or note-taking app?
+At [QDivision](https://qdivision.io/), where I work, we've been building building a number of mobile apps recently. A core requirement of many of these apps is that they allow the user to complete their work offline. You might not think that it would be difficult to create an app that works offline. Making a calculator or note-taking app isn't hard, unless you're also required to store those calculations and notes in the cloud to be shared and interact with other systems and users when the app comes online.
 
-Well, it isn't hard. Unless you're also required to store those calculations and notes in the cloud to be shared and interact with other systems and users when the app comes online. These are still relatively trivial examples, but it's easy to see how creating an app that works offline, and is capable of sharing data when online, becomes more difficult as its feature count increases.
+These are relatively trivial examples, but it's easy to see how creating an app that works offline, and is capable of sharing data when online, becomes more difficult as its feature count increases.
 
 I've worked on a couple of these mobile apps and helped develop a number of different solutions to address these problems. I'll discuss these architectures below. The first two architectures are designed to work on top of REST backend services. The third architecture is a more novel design that requires a different kind of data model and backend architecture.
 
-(Please note that I will discuss these architectures at a high level. I will not get into specific technologies or implementation details.)
+(For the most part, these architectures were implemented in JavaScript, React, and Redux apps. However, please note that I will discuss these architectures at a high level. I will try not get into specific technologies or implementation details in this post - though some may still leak through.)
 
 ## Traditional Request Driven - Online
 
@@ -53,7 +53,7 @@ There are, of course, a countless number of alternative architectures that one m
 
 ![Request Token Queue - Online Diagram](./request-driven_token-queue_online.png)
 
-This architecture works by storing requests in a queue, and then sending them to the API. If the app loses connectivity, these requests are simply kept in the queue until the app comes back online - at which point they are sent off.
+This architecture works by storing requests in a queue contained in the mobile app, and then sending them to the API. If the app loses connectivity, these requests are simply kept in the queue until the app comes back online - at which point they are sent off.
 
 You might be wondering at this point "How do you store an HTTP request in a queue?" This is a good question, because you can only store _objects_ in a queue. But HTTP requests are not objects, they are _processes_. We can solve this problem by creating an object that represents an HTTP request. Let's call this object a **request token**.
 
@@ -69,9 +69,9 @@ This is great! So we've solved the problem we encountered in the Traditional Req
 
 ![Request Token Queue - Offline Diagram](./request-driven_token-queue_offline.png)
 
-Well, maybe. But this new architecture has introduced a new problem: the user can now get stuck in a pending state for a long period of time.
+Maybe. But this new architecture has introduced a new problem: the user can now get stuck in a pending state for a long period of time.
 
-This can happen because after generating a request token, the UI moves into a pending state until that token is resolved. How long does it take for a token to be resolved? Well, if the app is online, it probably won't take but a few seconds. But if the app is offline, then it could take minutes, hours, or days - however long it takes for the user to move to an area in which the app can reestablish connectivity.
+This can happen because after generating a request token, the UI moves into a pending state until that token is resolved. How long does it take for a token to be resolved? If the app is online, it probably won't take but a few seconds. But if the app is offline, then it could take minutes, hours, or days - however long it takes for the user to move to an area in which the app can re-establish connectivity.
 
 This is particularly troublesome if the user needs to perform a series of _dependent_ actions while they are offline. To make this problem concrete, consider the following scenario:
 
@@ -116,7 +116,7 @@ Unfortunately, this architecture allows both of these factors to grow quite larg
 
 ### Avoiding Rollbacks with Event Sourcing
 
-At this point its useful to consider why rollbacks are necessary. They are necessary because HTTP requests can fail. Most mobile apps interact with a REST API over HTTP using several different endpoints. Oftentimes, these endpoints are backed by different services and databases - each of which can fail in different ways.
+At this point it's useful to consider why rollbacks are necessary. They are necessary because HTTP requests can fail. Most mobile apps interact with a REST API over HTTP using several different endpoints. Oftentimes, these endpoints are backed by different services and databases - each of which can fail in different ways.
 
 Because mobile apps make so many _different_ requests, each of which can fail for _different_ reasons at _different_ times, responding to failed HTTP requests is very important. Of course, in this architecture, we respond to these request failures with rollbacks.
 
@@ -134,13 +134,15 @@ This architecture replaces request tokens with **events**. The difference betwee
 
 For example, if a user was to create a record, an event for that action would be produced. If the user updated a record, a different event would be produced. These events can be used to update the state of the app. They have meaning in and of themselves.
 
-Because these events are just plain JSON objects, they can easily be transmitted over HTTP. But they have _no inherent relationship to any given HTTP request_. This is a crucial distinction that differentiates events from request tokens. Request tokens are very tightly coupled to HTTP requests. Each request token represents a very specific HTTP request, and doesn't have meaning outside of that context.
+Because these events are just plain JSON objects, they can easily be transmitted over HTTP.
+
+These event objects can be transmitted over HTTP, but they have _no inherent relationship to any given HTTP request_. This is a crucial distinction that differentiates events from request tokens. Request tokens are very tightly coupled to HTTP requests. Each request token represents a very specific HTTP request, and doesn't have meaning outside of that context.
 
 The **event queue** in this architecture is more or less the same as the token queue in the previous architectures. The only real difference is that the event queue stores events, instead of request tokens.
 
-The token processor in the previous architectures has a rather complicated job. It has to convert request tokens into actual HTTP requests. Each request can be sent to a different API endpoint, have a different body, header set, etc... The token processor has to handle updating the state of the app in response to token resolution. And because token resolution can also fail, the token processor has to handle rollback logic, which can get quite complicated.
+The token processor in the previous architectures has a rather complicated job. It has to convert request tokens into actual HTTP requests. Each request can be sent to a different API endpoint, have a different body, header set, etc. The token processor has to handle updating the state of the app in response to token resolution. And because token resolution can also fail, the token processor has to handle rollback logic, which can get quite complicated.
 
-The **event sender**, however, is quite a bit different from the token processor and has a _much_ simpler job. Its only job is to send events from the event queue to the **event store** via HTTP requests. This consists of sending arrays of events to a single endpoint of the event store's API via a POST request.
+The **event sender**, however, is _much_ simpler. Its only job is to send events from the event queue to the **event store** via HTTP requests. This consists of sending arrays of events to endpoints of the event store's API via POST requests. (The number of endpoints involved is usually very small. Depending on the domain and how you choose to organize your events, it may even be a single endpoint!)
 
 Let's investigate what happens when this architecture goes offline.
 
@@ -148,13 +150,30 @@ Let's investigate what happens when this architecture goes offline.
 
 ![Event Queue with Optimistic Updates - Offline Diagram](./event-driven_event-queue_optimistic-update_offline.png)
 
-The user can perform an arbitrary series of actions without ever encountering a loading screen. Each action performed by the user will produce an event object. This event object is used to update the app's state, and is then sent into the event queue.
+The user can perform an arbitrary series of actions without ever encountering a loading screen. Each action will produce an event object. This event object is used to update the app's state, and is then sent into the event queue.
 
-Because the user is offline, the event sender is unable to send the events in the queue to the event store. But that's okay, because when the user comes back online, the events will be sent to the event store in a single, efficient, POST request.
+Because the user is offline, the event sender is unable to send the events in the queue to the event store. But that's okay, because when the user comes back online, the events will be sent to the event store in a small number of efficient POST requests. It's not necessary to create a dedicated POST request for each event. (The events can be grouped by their respective domains, or depending on your implementation, you may have a single group for all events).
+
+The app will also need to obtain any new events that have been sent to the store from other sources to stay up-to-date. This can be done in different ways, depending on how you choose to implement event sourcing. One approach would be to make a GET request for new events before sending those queued by the app while offline. Another way is to just send the POST request, and let the event store merge the queued actions appropriately. The event store can then send back the last _n_ events of the stream in the POST request's response body (where _n_ consists of any new events in the store merged with the POSTed actions). With either approach, the app will need to take the events obtained from the store and run them through the interpreter to update its state.
 
 No rollback logic is required because the likelihood of failure is incredibly low in this model, compared to a typical REST approach. If the event store's single endpoint ever fails to accept requests, then the app will simply hold its events in storage until the event store is fixed and able to accept the events once again.
 
 This all happens seamlessly for the user. It really doesn't matter to them whether they are online or not. It all works the same. (Of course, they cannot receive updates from the event store when the app is offline, but this is unavoidable no matter what architecture you use).
+
+### A Note on Determinism in Event Sourcing
+
+You may take issue with my assertion that "No rollback logic is required" in this event sourcing architecture. In general, this is true because event sourced systems are additive. The handling of an event should be deterministic, regardless of the previous events in the stream.
+
+For example, consider the case of a DELETE event being added to the stream, followed by an UPDATE event. Both of these events were performed on the same record. Perhaps by different users without internet connectivity, preventing them from staying in sync.
+
+An interpreter for these events could process this stream as follows:
+
+1.  **DELETE:** Flag the record as deleted. Don't actually remove the record.
+2.  **UPDATE:** Perform the relevant updated to the record, which has been flagged as deleted.
+
+This handling of the event stream avoids any special rollback logic. Events can always be added to the stream, and processed successfully. The processing of an event cannot "fail".
+
+It's worth noting that this does depend on a huge number of variables. I am positive that there are situations and domains with constraints that would require some type of special rollback logic. But for many domains, the event sender can remain simple, and not require special rollback logic.
 
 ## Summary
 
