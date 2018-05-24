@@ -4,7 +4,7 @@ date: "2018-05-17"
 title: "Offline App Architectures"
 ---
 
-At [QDivision](https://qdivision.io/), where I work, we've been building building a number of mobile apps recently. A core requirement of many of these apps is that they allow the user to complete their work offline. You might not think that it would be difficult to create an app that works offline. Making a calculator or note-taking app isn't hard, unless you're also required to store those calculations and notes in the cloud to be shared and interact with other systems and users when the app comes online.
+At [QDivision](https://qdivision.io/), where I work, we've been building a number of mobile apps recently. A core requirement of many of these apps is that they allow the user to complete their work offline. You might not think that it would be difficult to create an app that works offline. Making a calculator or note-taking app isn't hard, unless you're also required to store those calculations and notes in the cloud to be shared and interact with other systems and users when the app comes online.
 
 These are relatively trivial examples, but it's easy to see how creating an app that works offline, and is capable of sharing data when online, becomes more difficult as its feature count increases.
 
