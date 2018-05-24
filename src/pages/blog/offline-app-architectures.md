@@ -182,3 +182,22 @@ So which architecture should you use for implementing offline functionality in a
 * **Is it okay to present a pending screen to the user until they come online?** If so, then the Request Token Queue is a viable option. It's very similar to the Traditional Request Driven architecture, so you can bring a lot of your existing experience and intuition to bear when implementing it.
 * **Does the user need to perform a series of dependent actions while offline?** If this is a requirement, then showing the user a pending screen isn't an option. So, the Request Token Queue with Optimistic Updates architecture is a valid candidate. Of course, this architecture comes with a lot of additional complexity and forces you to handle rollback logic. All of the problems that come with this architecture can make it a less than desirable solution.
 * **Are you working with existing REST based services?** This matters a lot. If you are, then whatever offline architecture you choose must work on top of a REST API model. This means that the event driven architecture isn't an option, and you'll have to choose a request driven model. But if you are able to create new services based on event sourcing, then you should strongly consider the Event Queue with Optimistic Updates architecture. It avoids much of the complexity of rollbacks while still retaining the benefits of optimistic updates when offline.
+
+## Implementation Details
+
+Having explained these architectures in the abstract, I'd like to briefly mention how we actually implemented them for our apps at QDivision.
+
+For one of our first apps, Stride, we used the **Request Token Queue** architecture both with and without optimistic updates. We chose these architectures because Stride needed to leverage existing REST-based services. Stride is written in [React Native](https://facebook.github.io/react-native/), and uses [Redux](https://github.com/reduxjs/redux) for state management. The [`redux-thunk`](https://github.com/reduxjs/redux-thunk) middleware is also heavily used in Stride for asynchronous processes that manipulate state - network requests, in particular. For this reason, we used **thunk tokens** instead of _request_ tokens. But the underlying concept is the same. The primary difference is that thunk tokens allowed us to move the state update logic that would normally reside in the token processor into thunks.
+
+The thunk tokens themselves are simple JavaScript objects that can be serialized as JSON and stored in [`AsyncStorage`](https://facebook.github.io/react-native/docs/asyncstorage.html). This allows us to persist the tokens even if the app is closed. Then when it is reopened, we can proceed to resolve the tokens. It's worth noting that when implementing our offline functionality we considered using the [`react-native-offline`](https://github.com/rgommezz/react-native-offline) module, as it offers an [offline queue](https://github.com/rgommezz/react-native-offline#offline-queue) that can store thunks. However, it does not represent the thunks with token objects. It stores the actual thunk function in the queue, which means it is not capable of serializing the thunks in the queue. As such, it must keep the queue in-memory, so its contents would be lost if the app was closed out.
+
+Flex is another app we recently launched. Flex was built from the ground up, and was independent of existing services. This meant we could implement event sourced backend services, and use the **Event Queue** architecture for the mobile app. We use Redux for state management in Flex as well. If you are familiar with Redux, you will know that it uses objects called [actions](https://redux.js.org/basics/actions) to update the app's state. This sounds a lot like event sourcing! We decided to make our events simply be our Redux actions. So we just store redux actions in a queue in the app, and send them to our event store (written in [Node JS](https://nodejs.org/en/)). Our event store uses a single PostgreSQL database table to store the events. Since our events are simply [FSA](https://github.com/redux-utilities/flux-standard-action) objects, we use the following schema for our table:
+
+```javascript
+CREATE TABLE IF NOT EXISTS actions (
+  id      SERIAL  NOT NULL PRIMARY KEY,
+  type    varchar NOT NULL,
+  meta    jsonb   NOT NULL,
+  payload jsonb   NOT NULL
+);
+```
