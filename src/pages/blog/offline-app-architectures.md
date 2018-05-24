@@ -10,7 +10,7 @@ These are relatively trivial examples, but it's easy to see how creating an app 
 
 I've worked on a couple of these mobile apps and helped develop a number of different solutions to address these problems. I'll discuss these architectures below. The first two architectures are designed to work on top of REST backend services. The third architecture is a more novel design that requires a different kind of data model and backend architecture.
 
-(For the most part, these architectures were implemented in JavaScript, React, and Redux apps. However, please note that I will discuss these architectures at a high level. I will try not get into specific technologies or implementation details in this post - though some may still leak through.)
+(For the most part, these architectures were implemented in JavaScript, React, and Redux apps. However, please note that I will discuss these architectures at a high level. I will try not to get into specific technologies or implementation details in this post - though some may still leak through.)
 
 ## Traditional Request Driven - Online
 
@@ -91,7 +91,7 @@ How can we solve this problem? How can we allow the user to perform a series of 
 
 This architecture retains the concept of a request token, as well as the token queue and token processor modules. It differs from the previous architecture in how it updates the UI after generating a request token.
 
-The previous architecture entered a pending state and waited for resolution of the token. This architecture performs an **optimistic update**. An simply assumes that the request token will resolve successfully, and updates the UI accordingly.
+The previous architecture entered a pending state and waited for resolution of the token. This architecture performs an **optimistic update**. It simply assumes that the request token will resolve successfully, and updates the UI accordingly.
 
 Of course, the token may _not_ resolve successfully. What then? In this case, the app will perform a **rollback**. This entails reverting the state of the app back to what it was prior to the user performing any actions for which token resolution failed.
 
