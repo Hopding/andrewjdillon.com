@@ -183,7 +183,7 @@ So which architecture should you use for implementing offline functionality in a
 * **Does the user need to perform a series of dependent actions while offline?** If this is a requirement, then showing the user a pending screen isn't an option. So, the Request Token Queue with Optimistic Updates architecture is a valid candidate. Of course, this architecture comes with a lot of additional complexity and forces you to handle rollback logic. All of the problems that come with this architecture can make it a less than desirable solution.
 * **Are you working with existing REST based services?** This matters a lot. If you are, then whatever offline architecture you choose must work on top of a REST API model. This means that the event driven architecture isn't an option, and you'll have to choose a request driven model. But if you are able to create new services based on event sourcing, then you should strongly consider the Event Queue with Optimistic Updates architecture. It avoids much of the complexity of rollbacks while still retaining the benefits of optimistic updates when offline.
 
-## Implementation Details
+## How We Did It
 
 Having explained these architectures in the abstract, I'd like to briefly mention how we actually implemented them for our apps at QDivision.
 
