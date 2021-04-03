@@ -162,16 +162,76 @@ const IndexPage = () => (
 
       <Section.Section id="projects" header="Projects">
         <Section.Text>
-          I like to learn about new technologies, and I think that one of the
-          best ways to do that is to share what I have learned. After all, it
-          has been said that you do not truly know or understand something until
-          you can teach it to others. As such, I maintain a{' '}
-          <a href="http://hopding.com/" target="_blank">
-            blog
+          I enjoy tinkering and writing code in my free time. Open source is 
+          important to me, so I share my projects on{' '}
+          <a href="https://github.com/Hopding" target="_blank">
+          GitHub
           </a>{' '}
-          where I discuss things I have learned and done, and write tutorials so
-          others can do those things as well.
+          and make it a point to publish them so others can benefit from and 
+          build on my work. A few projects of which I am particularly proud are:
+          <ul>
+            <li>
+              <p>
+                <b><a href="https://github.com/Hopding/pdf-lib" target="_blank">
+                  pdf-lib
+                </a></b>{' '}
+                is the crown jewel of my portfolio. It is without question my 
+                most successful and impactful project.{' '}
+                <a href="https://pdf-lib.js.org" target="_blank">
+                  pdf-lib
+                </a>{' '}
+                is a widely used library for manipulating PDF documents in any 
+                JavaScript environment. It currently sits at 2,500 stars on 
+                GitHub and is downloaded from NPM 100,000 times per week.
+              </p>
+              <p>
+                <b><a href="https://github.com/Hopding/pdf-lib" target="_blank">
+                  pdf-lib
+                </a></b>{' '}
+                is a widely used library for manipulating PDF documents in any 
+                JavaScript environment. It is the crown jewel of my portfolio 
+                and is without question my most successful and impactful 
+                project.{' '}
+                <a href="https://pdf-lib.js.org" target="_blank">
+                  pdf-lib
+                </a>{' '}
+                currently sits at 2,500 stars on GitHub and is downloaded from 
+                NPM 100,000 times per week.
+              </p>
+              <p>
+                I created pdf-lib about 3 years ago. At that time I was working 
+                on a React Native app at UniGroup and needed to modify a PDF 
+                client-side. But there were no pure-JS libraries available 
+                capable of doing this, so we resorted to a less than ideal 
+                server-side workaround. That experience motivated me to create 
+                a library to fill this gap. 
+              </p>
+              <p>
+                Writing and maintaining pdf-lib has been a very rewarding 
+                process. I've learned a lot about open source, library design, 
+                JavaScript, TypeScript, ISO standards, document formats, and 
+                much more.
+              </p>
+            </li>
+            <li>
+              <p>
+                <b><a href="https://www.jsv9000.app" target="_blank">
+                  jsv9000.app
+                </a></b>{' '}
+                (JavaScript Visualizer 9000) is an interactive web app that 
+                visualizes and explains JavaScript's event loop. It is used by 
+                programming instructors and coding schools to help developers 
+                learn how async JavaScript works. I created jsv9000 as a 
+                companion app for a{' '}
+                <a href="https://javascript.plainenglish.io/the-javascript-execution-model-part-1-448e62628f23?source=friends_link&sk=49f288c073ce562277d50de8abb13635" target="_blank">
+                  series of articles
+                </a>{' '}
+                I wrote about how JavaScript's event loop works.
+              </p>
+            </li>
+          </ul>
         </Section.Text>
+
         <Section.Text>
           I also share many of my personal projects on GitHub. A few of which I
           am particularly proud are:
@@ -257,13 +317,17 @@ const IndexPage = () => (
 
       <Section.Section id="writing" header="Writing">
         <Section.Text>
-          Hi there! I'm Andrew. Thanks for taking the time to visit my site. I
-          am a student at the University of Missouri - St. Louis, studying
-          Computer Science and Mathematics. I enjoy writing code, learning about
-          new technologies, tinkering with electronics, reading, and thinking
-          about the future.
+          I like to learn about new technologies, and I think that one of the
+          best ways to do that is to share what I have learned. After all, it
+          has been said that you do not truly know or understand something until
+          you can teach it to others. As such, I maintain a{' '}
+          <a href="http://hopding.com/" target="_blank">
+            blog
+          </a>{' '}
+          where I discuss things I have learned and done, and write tutorials so
+          others can do those things as well.
         </Section.Text>
-        </Section.Section>
+      </Section.Section>
 
       <Section.Section id="thank-you" header="Thank You">
         <Section.Text>
