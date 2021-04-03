@@ -315,7 +315,7 @@ const IndexPage = () => (
                 <b><a href="https://medium.com/swlh/how-to-create-and-modify-pdf-files-in-deno-ffaad7099b0?source=friends_link&sk=3da183bb776d059df428eaea52102f19" target="_blank">
                   How to Create and Modify PDF Files in Deno With pdf-lib
                 </a></b>{' '}
-                - An explaination of Deno, why most JavaScript PDF libraries are 
+                - An explanation of Deno, why most JavaScript PDF libraries are 
                 incompatible with it, and examples of using pdf-lib in Deno 
                 scripts.
               </p>
@@ -333,7 +333,7 @@ const IndexPage = () => (
                   </a>
                 </b>{' '}
                 - A careful, in depth explanation of JavaScript's event loop 
-                execution model and it's implications for developers.
+                execution model and its implications for developers.
               </p>
             </li>
             <li>
