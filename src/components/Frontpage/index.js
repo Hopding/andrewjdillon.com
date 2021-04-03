@@ -30,6 +30,7 @@ class Frontpage extends React.Component {
               top: 0,
               left: 0,
             }}
+            height="calc(100% - 75px)"
             params={PARTICLES_CONFIG}
           />
         )}
