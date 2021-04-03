@@ -45,7 +45,7 @@ class Frontpage extends React.Component {
               color="#FFFFFF"
             />
             <Icons.LinkedIn
-              href="https://www.linkedin.com/in/andrew-dillon-64b539119/"
+              href="https://linkedin.com/in/andrewjdillon"
               color="#FFFFFF"
             />
             <Icons.Resume
@@ -54,7 +54,7 @@ class Frontpage extends React.Component {
               color="#FFFFFF"
             />
             <Icons.GitHub href="https://github.com/Hopding" color="#FFFFFF" />
-            <Icons.Pencil href="http://hopding.com" color="#FFFFFF" />
+            <Icons.Pencil href="http://andrewjdillon.medium.com" color="#FFFFFF" />
           </div>
           <div className="frontpage-chevron">
             <span className="chevron down" />

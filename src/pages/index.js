@@ -21,101 +21,143 @@ const IndexPage = () => (
       <div style={{ height: '25px' }} />
       <Section.Section id="about" header="About Me">
         <Section.Text>
-          Hi there! I'm Andrew. Thanks for taking the time to visit my site. I
-          am a student at the University of Missouri - St. Louis, studying
-          Computer Science and Mathematics. I enjoy writing code, learning about
-          new technologies, tinkering with electronics, reading, and thinking
-          about the future.
+          Hello! My name is Andrew. I'm a passionate software engineer, an open 
+          source maintainer, a writer, and a leader. Personal and professional 
+          growth is very important to me. I am a curious person and love to 
+          learn new things. Each day I devote 2 hours to reading books and 
+          over the past few months I've started learning to ballroom dance, play 
+          piano, and swim!
         </Section.Text>
         <Section.Text>
-          I first began learning how to code in high school. I had received a
-          Lego Robot as a gift one year, and decided that I wanted to learn how
-          to program it. I discovered the{' '}
-          <a href="http://www.lejos.org/" target="_blank">
+          I first began learning how to write software in high school. My 
+          parents gifted me a Lego Robot one year. At the time, I didn't know 
+          the first thing about programming. So I decided to learn! I discovered 
+          the{' '}
+          <a href="http://www.lejos.org" target="_blank">
             leJOS
           </a>{' '}
-          project, and decided that I would use that framework to program my
-          robot.
+          project and started learning Java in order to program my robot.
         </Section.Text>
         <Section.Text>
-          I had never written any code before, and my school did not offer any
-          Computer Science courses, since it was in a small, rural town. So I
-          had to learn everything on my own, via the internet and books. As
-          such, it took awhile to even get around to writing code for my robot,
-          as I had to learn all of the basics of Java - and coding in general -
-          first. But when I finally was able to write code that made my robot
-          move, I felt very empowered. It was quite exhilarating to have taught
-          myself a new skill. and to now be able to write code that effected
-          actual change in the world.
+          I lived in a small, rural town. My school didn't offer any computer
+          science classes so I had to learn everything on my own from the 
+          internet and books. Eventually I mastered the basics and was able to 
+          write a simple program and upload it to my little robotic rover. A 
+          feeling of intense excitement welled up inside me as I watched my 
+          robot slowly moving around the room. I'd found a new passion and have
+          been pursuing it ever since!
         </Section.Text>
         <Section.Text>
-          I have a couple of GitHub repositories containing the code that I
-          wrote for my Lego Robot,{' '}
+          (Here's a couple links to{' '}
           <a href="https://github.com/Hopding/ev3-lejos-btrc" target="_blank">
-            here
-          </a>{' '}
-          and{' '}
+          some
+          </a>
+          {' '}old leJOS code I{' '}
           <a href="https://github.com/Hopding/pc-lejos-rc" target="_blank">
-            here
-          </a>. I have also posted a{' '}
+          {' '}wrote
+          </a>
+          {' '}and a{' '}
           <a href="https://www.youtube.com/watch?v=r62NlPyJVec" target="_blank">
             video
-          </a>{' '}
-          of it on YouTube. (Note that this is old code that I have not updated
-          it in years.)
-        </Section.Text>
-        <Section.Text>
-          My coding abilities have grown significantly since then. I enjoy
-          learning new programming languages, and becoming more proficient in
-          them. I am also very interested in Artificial Intelligence and Machine
-          Learning. It is a very important area of technology that has had a
-          significant impact on our lives, and will continue to do so in the
-          future. I have contributed to the{' '}
-          <a
-            href="https://github.com/numenta/htm.java/blob/master/README.md"
-            target="_blank"
-          >
-            HTM.Java
-          </a>{' '}
-          codebase - which is an open source machine learning library licensed
-          by{' '}
-          <a href="http://numenta.com/" target="_blank">
-            Numenta
-          </a>. I am looking forward to learning more about neural networks, and
-          other machine learning technologies and algorithms.
+          </a>
+          {' '}of my rover).
         </Section.Text>
       </Section.Section>
 
       <Section.Section id="career" header="My Career">
         <Section.Text>
-          I've worked at{' '}
-          <a href="https://www.tapestrysolutions.com/" target="_blank">
-            Tapestry Solutions
-          </a>{' '}
-          as a Software Tester, where I learned a lot about software quality,
-          testing techniques, and deployment cycles & releases.
-        </Section.Text>
-        <Section.Text>
-          I was a participant in the{' '}
-          <a href="https://globalhack.org/globalhack-vi/" target="_blank">
+          After graduating high school I tested software at Tapestry Solutions 
+          for 7 months. In 2016 I started my first semester of college at the 
+          University of Missouri - Saint Louis. Later that year I participated 
+          in{' '}
+          <a href="https://globalhack.org/globalhack-vi" target="_blank">
             GlobalHack VI
           </a>{' '}
-          hackathon, whose goal was to help alleviate homelessness. My team and
-          I built a{' '}
-          <a href="https://devpost.com/software/include-homeless">tool</a> that
-          allows homeless shelters to quickly locate and assist the homeless.
-        </Section.Text>
-        <Section.Text>
-          I am currently working as a Software Developer on Maryville
-          Technologies'{' '}
-          <a href="https://maryvilledevcenter.com/" target="_blank">
-            DevOps team
-          </a>. I have learned a lot while working here about cloud computing,
-          serverless technologies, REST APIs & Golang, JavaScript & ReactJS
-          development, continuous integration & scripting, agile development,
-          and delivering code as a team.
+          where I met a team of software engineers from Maryville Technologies. 
+          A couple of months later I joined their team as a software engineering 
+          intern and began my career as a professional software engineer!
         </Section.Text>
         <ResumeButton />
+        <Section.Text>
+          For the next few months I worked with a team of interns creating back 
+          office software for the company. We also created an educational tool 
+          for{' '}
+          <a href="https://www.launchcode.org" target="_blank">
+            LaunchCode
+          </a>{' '}
+          that allowed instructors to create annotated code snippets and share 
+          them with students.
+        </Section.Text>
+        <Section.Text>
+          In April of 2016 I left the intern team to join a group of engineers 
+          consulting at{' '}
+          <a href="https://www.unigroup.com" target="_blank">
+            UniGroup
+          </a>
+          , the parent company of{' '}
+          <a href="https://www.mayflower.com" target="_blank">
+            Mayflower
+          </a>{' '}
+          and{' '}
+          <a href="https://www.unitedvanlines.com" target="_blank">
+            United Van Lines
+          </a>
+          . I spent the next several months designing and building software with
+          an awesome UniGroup product development team. Together we delivered
+          an iOS and Android app that allowed over 2,500 van operators to track 
+          and service loads across the continental U.S., forming a key piece of 
+          infrastructure for over $100,000,000 of business. 
+        </Section.Text>
+        <Section.Text>
+          I was very pleased with my professional growth and the impact I had 
+          been able to make. So in March of 2018 I left Maryville Technologies 
+          and joined UniGroup as a software engineer. The next project I worked 
+          on was an iOS and Android app that increased the speed and efficiency 
+          of over 1,000 of our packers. It allowed them to perform inventories 
+          in low-connectivity areas and freed up $750,000 that was previously 
+          spent on an error-prone third party application.
+        </Section.Text>
+        <Section.Text>
+          I then joined a crack team that built a web app and backend system to 
+          pilot a new customer experience and pricing model. We shipped this 
+          project in a mere 8 weeks. Several features of this pilot program 
+          were made permanent and increased our customer conversion rate. These 
+          improvements resulted in over $500,000 of additional revenue.
+        </Section.Text>
+        <Section.Text>
+          We then designed and built a system for our agents to configure 
+          geographic service areas. Part of this project involved creating a 
+          subsystem for lead distribution. Our work improved the CX for 
+          thousands of customers and eliminated over $2,000,000 in annual 
+          expenses by increasing the efficiency and effectiveness of our 
+          transportation network.
+        </Section.Text>
+        <Section.Text>
+          In March of 2020 I was promoted to tech lead. I led a development 
+          team tasked with creating a system to automate and streamline the 
+          scheduling of events with customers by connecting to our agent's 
+          calendars. Our work was able to increase revenue by reducing the 
+          wait time from 2+ days to less than 12 hours for over 100,000 
+          customers annually.
+        </Section.Text>
+        <Section.Text>
+          UniGroup's team of UX designers created a custom UI design system 
+          during the previous few months and had begun to use it in their 
+          product designs. Our development teams were struggling to implement 
+          the system, resulting in inefficiencies and frustration. To solve this 
+          problem, I formed and managed a cross-team group of frontend engineers 
+          and UI designers. We built a library of reusable React components 
+          that improved the stability of our applications and increased the 
+          velocity of our development teams by reducing waste and allowing code 
+          reuse.
+        </Section.Text>
+        <Section.Text>
+          In January of 2021 I led a team that developed a new billing system 
+          for our van line's leads. We also updated and modernized the 
+          distribution algorithm responsible for assigning leads to UniGroup's 
+          agents. This work increased business for over 500 agents in our 
+          network and increased revenue by over $3,000,000.
+        </Section.Text>
       </Section.Section>
 
       <Section.Section id="projects" header="Projects">
@@ -212,6 +254,16 @@ const IndexPage = () => (
           </ul>
         </Section.Text>
       </Section.Section>
+
+      <Section.Section id="writing" header="Writing">
+        <Section.Text>
+          Hi there! I'm Andrew. Thanks for taking the time to visit my site. I
+          am a student at the University of Missouri - St. Louis, studying
+          Computer Science and Mathematics. I enjoy writing code, learning about
+          new technologies, tinkering with electronics, reading, and thinking
+          about the future.
+        </Section.Text>
+        </Section.Section>
 
       <Section.Section id="thank-you" header="Thank You">
         <Section.Text>

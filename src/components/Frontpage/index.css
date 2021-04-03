@@ -1,6 +1,6 @@
 .frontpage {
   background-color: #204060;
-  min-height: 100vh;
+  min-height: calc(100vh - 75px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -102,7 +102,7 @@
 
 .frontpage-chevron {
   position: absolute;
-  bottom: 10px;
+  bottom: 85px;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #fff;
