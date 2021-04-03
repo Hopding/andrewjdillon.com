@@ -22,17 +22,24 @@ const IndexPage = () => (
       <Section.Section id="about" header="About Me">
         <Section.Text>
           Hello! My name is Andrew. I'm a passionate software engineer, an open 
-          source maintainer, a writer, and a leader. Personal and professional 
-          growth is very important to me. I am a curious person and love to 
-          learn new things. Each day I devote 2 hours to reading books and 
-          over the past few months I've started learning to ballroom dance, play 
-          piano, and swim!
+          source maintainer, a writer, and a leader. I enjoy solving hard 
+          problems, designing robust systems, and building high quality 
+          products that people love to use. I'm a cheerful team player and 
+          strive to bring out the best in others.
         </Section.Text>
         <Section.Text>
-          I first began learning how to write software in high school. My 
-          parents gifted me a Lego Robot one year. At the time, I didn't know 
-          the first thing about programming. So I decided to learn! I discovered 
-          the{' '}
+          Personal and professional growth is very important to me. I am a 
+          curious person and love to learn new things. Each day I devote 2 
+          hours to reading books and over the past few months I've started 
+          learning to ballroom dance, play piano, and swim!
+        </Section.Text>
+
+        <hr />
+
+        <Section.Text>
+          I first learned how to write software in high school. One year, my 
+          parents gifted me a Lego Robot. At the time, I didn't know the first 
+          thing about programming. So I decided to learn! I discovered the{' '}
           <a href="http://www.lejos.org" target="_blank">
             leJOS
           </a>{' '}
@@ -41,11 +48,10 @@ const IndexPage = () => (
         <Section.Text>
           I lived in a small, rural town. My school didn't offer any computer
           science classes so I had to learn everything on my own from the 
-          internet and books. Eventually I mastered the basics and was able to 
-          write a simple program and upload it to my little robotic rover. A 
-          feeling of intense excitement welled up inside me as I watched my 
-          robot slowly moving around the room. I'd found a new passion and have
-          been pursuing it ever since!
+          internet and books. Eventually I mastered the basics, wrote a simple 
+          program, uploaded it to my little robotic rover, and watched excitedly 
+          as it roved around the room. I'd found a new passion and have been 
+          pursuing it ever since!
         </Section.Text>
         <Section.Text>
           (Here's a couple links to{' '}
@@ -133,12 +139,14 @@ const IndexPage = () => (
           transportation network.
         </Section.Text>
         <Section.Text>
-          In March of 2020 I was promoted to tech lead. I led a development 
-          team tasked with creating a system to automate and streamline the 
-          scheduling of events with customers by connecting to our agent's 
-          calendars. Our work was able to increase revenue by reducing the 
-          wait time from 2+ days to less than 12 hours for over 100,000 
-          customers annually.
+          In December of 2019, after 4 years of working and going to school
+          full-time, I graduated from college with my Master's in Computer 
+          Science. Shortly thereafter, in March of 2020, I was promoted to a
+          tech lead position at UniGroup. I led a development team tasked with 
+          creating a system to automate and streamline the scheduling of events 
+          with customers by connecting to our agent's calendars. Our work was 
+          able to increase revenue by reducing the wait time from 2+ days to 
+          less than 12 hours for over 100,000 customers annually.
         </Section.Text>
         <Section.Text>
           UniGroup's team of UX designers created a custom UI design system 
@@ -171,19 +179,6 @@ const IndexPage = () => (
           build on my work. A few projects of which I am particularly proud are:
           <ul>
             <li>
-              <p>
-                <b><a href="https://github.com/Hopding/pdf-lib" target="_blank">
-                  pdf-lib
-                </a></b>{' '}
-                is the crown jewel of my portfolio. It is without question my 
-                most successful and impactful project.{' '}
-                <a href="https://pdf-lib.js.org" target="_blank">
-                  pdf-lib
-                </a>{' '}
-                is a widely used library for manipulating PDF documents in any 
-                JavaScript environment. It currently sits at 2,500 stars on 
-                GitHub and is downloaded from NPM 100,000 times per week.
-              </p>
               <p>
                 <b><a href="https://github.com/Hopding/pdf-lib" target="_blank">
                   pdf-lib
@@ -229,87 +224,75 @@ const IndexPage = () => (
                 I wrote about how JavaScript's event loop works.
               </p>
             </li>
+            <li>
+              <p>
+                <b><a href="https://github.com/QDivision/chip" target="_blank">
+                  chip
+                </a></b>{' '}
+                is a CLI tool that streamlines web development by simplifying 
+                management of microservices and infrastructure on local 
+                machines. I created chip to rectify a pattern of inefficient 
+                development habits I noticed on several dev teams. These habits 
+                wasted time and made it challenging for new devs to get up to 
+                speed and contribute quickly. Chip made a big impact on 
+                day-to-day developer productivity for teams that adopted it and 
+                knocked days off the time required to onboard new developers.
+              </p>
+            </li>
           </ul>
         </Section.Text>
-
         <Section.Text>
-          I also share many of my personal projects on GitHub. A few of which I
-          am particularly proud are:
+          Some older projects from that I created several years ago are also on 
+          GitHub:
           <ul>
             <li>
-              <b>
-                <a
-                  href="https://github.com/Hopding/NoidMAT-1.8.9"
-                  target="_blank"
-                >
+              <p>
+                <b><a href="https://github.com/Hopding/NoidMAT-1.8.9" target="_blank">
                   NoidMAT
-                </a>
-              </b>{' '}
-              is a Minecraft mod that I developed using the Forge modding
-              framework. It allows users to write simple scripts in Java to
-              automate their Minecraft avatar's actions. I created a webpage for
-              it{' '}
-              <a href="http://hopding.com/NoidMAT-1.8.9/" target="_blank">
-                here
-              </a>{' '}
-              which contains more details. I learned a lot while developing the
-              mod, especially about loading and executing code dynamically,
-              creating a user friendly API, and concurrent programming.
+                </a></b>{' '}
+                is a Minecraft mod that executes{' '}
+                <a href="http://hopding.com/NoidMAT-1.8.9" target="_blank">
+                  scripts
+                </a>{' '}
+                written by users to automate their avatar's actions. 
+              </p>
             </li>
             <li>
-              <b>
-                <a href="https://github.com/Hopding/MERP" target="_blank">
+              <p>
+                <b><a href="https://github.com/Hopding/MERP" target="_blank">
                   MERP
+                </a></b>{' '}
+                is a robot I created with an Arduino and Raspberry Pi that can 
+                be controlled from a{' '}
+                <a href="https://github.com/Hopding/Merp-Controller" target="_blank">
+                  desktop
+                </a>{' '}
+                or{' '}
+                <a href="https://github.com/Hopding/Merp-Android-Controller" target="_blank">
+                  Android device
                 </a>
-              </b>{' '}
-              is a result of my continued interest in robots and electronics. It
-              is a robot I created with an Arduino and Raspberry Pi that can be
-              remote controlled over WiFi via a{' '}
-              <a
-                href="https://github.com/Hopding/Merp-Controller"
-                target="_blank"
-              >
-                PC
-              </a>{' '}
-              or{' '}
-              <a
-                href="https://github.com/Hopding/Merp-Android-Controller"
-                target="_blank"
-              >
-                Android device
-              </a>.
+                .
+              </p>
             </li>
             <li>
-              <b>
-                <a href="https://github.com/Hopding/JRPiCam" target="_blank">
+              <p>
+                <b><a href="https://github.com/Hopding/JRPiCam" target="_blank">
                   JRPiCam
-                </a>
-              </b>{' '}
-              is a Java API that allows users to access the camera on their
-              Raspberry Pi board with Java. I created it because I had purchased
-              a Raspberry Pi Cam, and quickly noticed that there was no Java API
-              for it. So I made one myself, and documented it for use by others.
+                </a></b>{' '}
+                is a Java API for accessing the Raspberry Pi Cam.
+              </p>
             </li>
             <li>
-              <b>
-                <a href="https://github.com/Hopding/Picasso" target="_blank">
+              <p>
+                <b><a href="https://github.com/Hopding/Picasso" target="_blank">
                   Picasso
-                </a>
-              </b>{' '}
-              is a side scrolling desktop game I created with JavaFX. I was
-              learning about JavaFX for the first time, and decided that making
-              a game would be an interesting way to put my knowledge into
-              practice. I have posted a{' '}
-              <a
-                href="https://www.youtube.com/watch?v=O2IPfrGVLBE"
-                target="_blank"
-              >
-                video
-              </a>{' '}
-              of it on YouTube as well. One interesting thing to note about it
-              is that I chose not to use any existing game frameworks, and
-              relied only on the standard Java & JavaFX libraries to create
-              Picasso.
+                </a></b>{' '}
+                is a{' '}
+                <a href="https://www.youtube.com/watch?v=O2IPfrGVLBE" target="_blank">
+                  side scrolling desktop game
+                </a>{' '}
+                I created with JavaFX.
+              </p>
             </li>
           </ul>
         </Section.Text>
@@ -317,28 +300,77 @@ const IndexPage = () => (
 
       <Section.Section id="writing" header="Writing">
         <Section.Text>
-          I like to learn about new technologies, and I think that one of the
-          best ways to do that is to share what I have learned. After all, it
-          has been said that you do not truly know or understand something until
-          you can teach it to others. As such, I maintain a{' '}
-          <a href="http://hopding.com/" target="_blank">
-            blog
-          </a>{' '}
-          where I discuss things I have learned and done, and write tutorials so
-          others can do those things as well.
+          I take pleasure in writing clean, simple, and elegant code. Similarly,
+          I derive satisfaction from producing clear, informative writing. It
+          has been said that one cannot truly understand something until one
+          teaches it to others. Writing articles is a great way to enhance my
+          own understanding while helping others along the way!
+        </Section.Text>
+        <Section.Text>
+          The following is a compilation of articles I've written over the past
+          few years:
+          <ul>
+            <li>
+              <p>
+                <b><a href="https://medium.com/swlh/how-to-create-and-modify-pdf-files-in-deno-ffaad7099b0?source=friends_link&sk=3da183bb776d059df428eaea52102f19" target="_blank">
+                  How to Create and Modify PDF Files in Deno With pdf-lib
+                </a></b>{' '}
+                - An explaination of Deno, why most JavaScript PDF libraries are 
+                incompatible with it, and examples of using pdf-lib in Deno 
+                scripts.
+              </p>
+            </li>
+            <li>
+              <p>
+                <b>
+                  The JavaScript Execution Model{' '}
+                  <a href="https://javascript.plainenglish.io/the-javascript-execution-model-part-1-448e62628f23?source=friends_link&sk=49f288c073ce562277d50de8abb13635" target="_blank">
+                  Part 1
+                  </a>{' '}
+                  and{' '}
+                  <a href="https://javascript.plainenglish.io/the-javascript-execution-model-part-2-467c7b9b42fa?source=friends_link&sk=723a80ceaf917a2abe274ce238d67147" target="_blank">
+                  Part 2
+                  </a>
+                </b>{' '}
+                - A careful, in depth explanation of JavaScript's event loop 
+                execution model and it's implications for developers.
+              </p>
+            </li>
+            <li>
+              <p>
+                <b><a href="https://qdivision.io/offline-app-architectures" target="_blank">
+                  Offline App Architectures
+                </a></b>{' '}
+                - An exploration of different ways to build mobile applications 
+                that work reliably in low connectivity environments.
+              </p>
+            </li>
+            <li>
+              <p>
+                <b><a href="https://hopding.com/sdr-classifier" target="_blank">
+                  The SDR Classifier
+                </a></b>{' '}
+                - A detailed explanation of NuPIC's SDR Classifier and the 
+                Softmax activation function.
+              </p>
+            </li>
+          </ul>
         </Section.Text>
       </Section.Section>
 
-      <Section.Section id="thank-you" header="Thank You">
+      <Section.Section id="contact" header="Contact">
         <Section.Text>
-          Thanks again for visiting my webpage! I hope your time here was well
-          spent. Please feel free to reach out to me via{' '}
-          <a href="mailto:andrew.dillon.j@gmail.com">email</a>, or to connect
+          Please feel free to reach out via{' '}
+          <a href="mailto:andrew.dillon.j@gmail.com">
+            email
+          </a>{' '}
+          or connect
           with me on{' '}
-          <a href="https://www.linkedin.com/in/andrew-dillon-64b539119/">
+          <a href="https://www.linkedin.com/in/andrewjdillon">
             LinkedIn
-          </a>. I am always interested in talking, answering questions, or
-          discussing new opportunities!
+          </a>
+          ! I'm always happy to talk, answer questions, or discuss new 
+          opportunities.
         </Section.Text>
       </Section.Section>
     </Section.Root>

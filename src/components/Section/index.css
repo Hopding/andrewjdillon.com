@@ -35,6 +35,12 @@
   color: #595959; /* grey */
 }
 
+hr {
+  max-width: 110px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 ul {
   font-family: 'Lora', serif;
   font-size: 14pt;
