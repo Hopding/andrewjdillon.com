@@ -4,7 +4,6 @@ import Particles from 'react-particles-js';
 import './index.css';
 
 import PARTICLES_CONFIG from './particles.json';
-import RESUME_PDF from '../../../docs/Andrew-Dillon-Resume.pdf';
 import PROFILE_PIC from '../../../img/profile-pic.jpg';
 
 import Icons from '../../components/Icons';
@@ -50,8 +49,7 @@ class Frontpage extends React.Component {
               color="#FFFFFF"
             />
             <Icons.Resume
-              href={RESUME_PDF}
-              download="Andrew-Dillon-Resume.pdf"
+              href="/resume.pdf"
               color="#FFFFFF"
             />
             <Icons.GitHub href="https://github.com/Hopding" color="#FFFFFF" />

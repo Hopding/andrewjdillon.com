@@ -4,12 +4,10 @@ import Link from 'gatsby-link';
 import Frontpage from '../components/Frontpage';
 import Section from '../components/Section';
 
-import RESUME_PDF from '../../docs/Andrew-Dillon-Resume.pdf';
-
 const ResumeButton = () => (
   <div id="resume-download">
-    <a href={RESUME_PDF} download="Andrew-Dillon-Resume.pdf">
-      <button>Download Resume</button>
+    <a href="/resume.pdf" target="_blank">
+      <button>View Resume</button>
     </a>
   </div>
 );
