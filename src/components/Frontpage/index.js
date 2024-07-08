@@ -37,7 +37,7 @@ class Frontpage extends React.Component {
           <div className="frontpage-name">Andrew Dillon</div>
           <div className="frontpage-subtitle">Software Engineer</div>
           <div className="frontpage-avatar-container">
-            <img className="frontpage-avatar" src={PROFILE_PIC} width="125" />
+            <img className="frontpage-avatar" src={PROFILE_PIC} />
           </div>
           <div className="frontpage-icons">
             <Icons.Email
